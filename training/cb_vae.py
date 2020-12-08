@@ -1,3 +1,32 @@
+###############################################################################
+
+# CB-VAE code adapted from https://github.com/Robert-Aduviri/Continuous-Bernoulli-VAE
+
+###############################################################################
+
+#MIT License
+
+#Copyright (c) 2019 Robert Aduviri
+
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+
+#The above copyright notice and this permission notice shall be included in all
+#copies or substantial portions of the Software.
+
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#SOFTWARE.a
+###############################################################################
+
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -103,14 +132,11 @@ def load_state_encoder(z_dim, path, input_dim, device):
     model = VAE(z_dim, input_dim).to(device)
     ckpt = torch.load(path)
     model.load_state_dict(ckpt)
-    return model
-
 
 def train_encoder(device, data, z_dim=16, training_epochs=200, exp='test', batch_size=128, log_interval=10):
     input_dim = data.size(-1)
     model = VAE(z_dim, input_dim).to(device)
     loss_fn = loss_cbvae
-    # loss = loss_vae
     batch_size = 64
     dataset = torch.utils.data.TensorDataset(data)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size, drop_last=True, shuffle=True)
@@ -132,21 +158,8 @@ def train_encoder(device, data, z_dim=16, training_epochs=200, exp='test', batch
             optimizer.step()
             total_batches += 1
             if total_batches % log_interval == 0:
-                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                print('Train Epoch: {} [{}/{} ({:.0f}%)]'.format(
                     epoch, batch_idx * len(data), len(dataloader.dataset),
-                    100. * batch_idx / len(dataloader),
-                    loss.item() / len(data)))
-
-                print('====> Epoch: {} Average loss: {:.4f}'.format(
-                    epoch, train_loss / len(dataloader.dataset)))
-
-        if epoch % log_interval == 0 and epoch > 1:
-            torch.save(model.state_dict(), 'models/{}/model_save_epoch_{}.pt'.format(exp, str(epoch)))
-            recon_batch = recon_batch[0].view(-1, 1, input_dim, input_dim).cpu()*255.
-            data = data.view(-1, 1, input_dim, input_dim).cpu()*255.
-            save_image(data, 'images/{}/data_elu2_lowlr{}.png'.format(exp, str(epoch)),
-                    nrow=min(data.size(0),8), normalize=True)
-            save_image(recon_batch, 'images/{}/reconstruction_elu2_lowlr{}.png'.format(exp, str(epoch)),
-                    nrow=min(data.size(0),8), normalize=True)
+                    100. * batch_idx / len(dataloader)))
     return model
 

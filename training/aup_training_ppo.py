@@ -78,7 +78,12 @@ class PPO_AUP(object):
         """ AUP-specific parameters """
         self.z_dim = z_dim
         self.use_scale = False
-        self.lamb_schedule = LinearSchedule(4e6, initial_p=1e-3, final_p=1e-1)
+        if env_type == 'append-still':
+            n_steps = 5e6
+        else:
+            n_steps = 4e6
+
+        self.lamb_schedule = LinearSchedule(n_steps, initial_p=1e-3, final_p=1e-1)
    
     def tensor(self, data, dtype):
         data = np.asanyarray(data)
@@ -247,7 +252,7 @@ class PPO_AUP(object):
                 loss.backward()
                 self.optimizer_aup.step()
 
-    def train(self, steps):
+    def train(self):
         print ('starting training')
         max_steps = self.aup_train_steps
         

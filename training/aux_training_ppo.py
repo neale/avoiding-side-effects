@@ -43,7 +43,7 @@ class PPO_AUX(object):
     reward_clip = 0.0
     policy_rectifier = 'relu'  # or 'elu' or ...more to come
 
-    checkpoint_freq = 1000#100000
+    checkpoint_freq = 100000
     num_checkpoints = 3
     report_freq = 960
     test_freq = 100000
@@ -92,8 +92,6 @@ class PPO_AUX(object):
         self.train_encoder_epochs = vae_epochs
 
         if not self.is_random_projection and not skip_vae_training:
-            self.load_state_encoder = False
-            self.state_encoder_path = 'models/{}/model_save_epoch_100.pt'.format(env_type)
             self.state_encoder = [self.train_state_encoder(
                 envs=self.training_envs) for _ in range(n_rfn)]
         if random_projection:
@@ -159,11 +157,6 @@ class PPO_AUX(object):
     CB-VAE is trained for <n_epochs> 
     """
     def train_state_encoder(self, envs):
-        if self.load_state_encoder:
-            print ('loading state encoder')
-            return load_state_encoder(z_dim=self.z_dim,
-                                    path=self.state_encoder_path,
-                                    device=self.compute_device)
         envs = [e.unwrapped for e in envs]
         states = [e.last_obs if hasattr(e, 'last_obs') else e.reset() for e in envs]
         print ('gathering data from every env N={}'.format(len(envs)))
@@ -179,8 +172,6 @@ class PPO_AUX(object):
                 buffer.append(obs)
         print ('collected data for state encoder')
         buffer_th = torch.stack(buffer)
-        buffer_np = buffer_th.cpu().numpy()
-        np.save('buffers/{}/state_buffer'.format(self.exp), buffer_np)
         return train_encoder(
                 device=self.compute_device,
                 data=buffer_th,
