@@ -16,7 +16,7 @@ SafeLife is a novel environment to test the safety of reinforcement learning age
 
 
 
-### Usage
+## Usage
 
 Install the Safelife environment by following the instructions on [their repository](https://github.com/PartnershipOnAI/safelife) 
 
@@ -28,7 +28,7 @@ Alternatively, here are some basic instructions for a local install
 Note that we use version 1.0 of Safelife. Some large changes that we have not thoroughly tested, were implemented in the current master branch of Safelife
 
 
-### Training an agent
+## Training an agent
 
 The `train` script is an easy way to get agents up and running using the default proximal policy optimization implementation. Just run
 
@@ -36,18 +36,48 @@ The `train` script is an easy way to get agents up and running using the default
 
 to start training. Saved files including checkpoints, logging file, and intermediate episode videos are stored in `data/aup/<task>`. 
 
+## Loading a Saved Model
 
+We include saved models for AUP and the PPO baseline, for each SafeLife task. 
 
-### Results
+### Continuing Training with a Model Checkpoint
+
+### Generating Agent Videos with a Model Checkpoint 
+
+## Results on SafeLife Tasks
 
 We trained agents on four different Safelife tasks. Two of our tasks involve placing cells on goal tiles, with an initially static board. In this scenario, the board is initialized with many (`append_still`), or fewer green cells (`append_still-easy`). The third task considers the same goal, but the board initializes with dynamic yellow cells that spawn more cells (`append_spawn`). In the final task, the agent is tasked with removing red cell patterns from the initially static board (`prune-still`). We show the main results (reward and side-effects) below, for all considered methods, on each task. 
 
+GIF files for each task can be found in the [GIFs](https://github.com/neale/avoiding-side-effects/tree/master/gifs) directory.  
+
+### Append_Still-Easy Results 
 <p align="center">
-<img alt="main results" src="https://github.com/neale/avoiding-side-effects/results/blob/master/main_results.pdf"/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/side_effect_append_still-easy_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/reward_append_still-easy_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/length_append_still-easy_plot.png" width=275/>
 </p>
 
 
+### Append_Still Results 
+<p align="center">
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/side_effect_append_still_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/reward_append_still_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/length_append_still_plot.png" width=275/>
+</p>
 
-10/26/2020
 
-TODO: upload saved models and videos, make training script more generalizable
+### Append_Spawn Results 
+<p align="center">
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/side_effect_append_spawn_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/reward_append_spawn_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/length_append_spawn_plot.png" width=275/>
+</p>
+
+
+### Prune_Still-Easy Results 
+<p align="center">
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/side_effect_prune_still-easy_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/reward_prune_still-easy_plot.png" width=275/>
+<img alt="main results" src="https://github.com/neale/avoiding-side-effects/blob/master/figures/length_prune_still-easy_plot.png" width=275/>
+</p>
+
