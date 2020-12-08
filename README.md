@@ -9,7 +9,7 @@ The paper can be found [on arxiv](https://arxiv.org/abs/2006.06547)
 
 ## Abstract
 
-Reward function specification can be difficult. Rewarding the agent for making a widget may be easy, but penalizing the multitude of possible negative side effects is hard. In toy environments,  Attainable Utility Preservation (\textsc{aup}) avoided side effects by penalizing shifts in the ability to achieve randomly generated goals \citep{turner2020conservative}. We scale this approach to large, randomly generated environments based on Conway's Game of Life. By preserving optimal value for a single randomly generated reward function, \textsc{aup} incurs modest overhead while leading the agent to complete the specified task and avoid many side effects.
+Reward function specification can be difficult. Rewarding the agent for making a widget may be easy, but penalizing the multitude of possible negative side effects is hard. In toy environments,  Attainable Utility Preservation (AUP) avoided side effects by penalizing shifts in the ability to achieve randomly generated goals. We scale this approach to large, randomly generated environments based on Conway's Game of Life. By preserving optimal value for a single randomly generated reward function, AUP incurs modest overhead while leading the agent to complete the specified task and avoid many side effects.
 
 SafeLife is a novel environment to test the safety of reinforcement learning agents. The long term goal of this project is to develop training environments and benchmarks for numerous technical reinforcement learning safety problems, with the following attributes:
 
