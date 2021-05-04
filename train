@@ -347,7 +347,7 @@ try:
             algo = PPO(
                     model,
                     training_envs=training_envs,
-                    testing_envs=testing_envs,
+                    testing_envs=None,
                     logdir=data_dir,
                     train_steps=ppo_train_steps,
                     summary_writer=summary_writer)

@@ -73,6 +73,7 @@ class PPO(object):
             for e in envs
         ]
         tensor_states = torch.tensor(states, device=self.compute_device, dtype=torch.float32)
+        print (tensor_states.shape)
         values_q, policies = self.model(tensor_states)
         values = values_q.mean(1)
         
